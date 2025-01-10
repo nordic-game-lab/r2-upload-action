@@ -1,6 +1,6 @@
-name: 'R2 Upload Action'
-description: 'GitHub Action to upload files to a Cloudflare R2 bucket'
-author: 'ryand56'
+name: 'R2 SDK Upload Action'
+description: 'GitHub Action to upload Sdks to a Cloudflare R2 bucket'
+author: 'nordic-game-lab'
 branding:
   icon: 'upload-cloud'
   color: 'white'
@@ -24,6 +24,15 @@ inputs:
     description: ''
     required: true
   destination-dir:
+    description: ''
+    required: false
+  ghRefs:
+    description: ''
+    required: false
+  devDestinationDir:
+    description: ''
+    required: false
+  prodDestinationDir:
     description: ''
     required: false
   output-file-url:
