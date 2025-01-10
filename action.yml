@@ -26,13 +26,13 @@ inputs:
   destination-dir:
     description: ''
     required: false
-  ghRefs:
+  ref:
     description: ''
     required: false
-  devDestinationDir:
+  dev-destination-dir:
     description: ''
     required: false
-  prodDestinationDir:
+  prod-destination-dir:
     description: ''
     required: false
   output-file-url:
