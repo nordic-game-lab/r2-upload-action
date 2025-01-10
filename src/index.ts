@@ -33,7 +33,10 @@ let config: R2Config = {
     bucket: getInput("r2-bucket", { required: true }),
     jurisdiction: getInput("r2-jurisdiction"),
     sourceDir: getInput("source-dir", { required: true }),
+    prodDestinationDir: getInput("prod-destination-dir"),
+    devDestinationDir: getInput("dev-destination-dir"),
     destinationDir: getInput("destination-dir"),
+    ghRefs: getInput("ref"),
     outputFileUrl: getInput("output-file-url") === 'true',
     multiPartSize: parseInt(getInput("multipart-size")) || 100,
     maxTries: parseInt(getInput("max-retries")) || 5,
@@ -83,8 +86,24 @@ const run = async (config: R2Config) => {
     const map = new Map<string, PutObjectCommandOutput | CompleteMultipartUploadCommandOutput>();
     const urls: FileMap = {};
 
+    let destDir;
+        if(prodDestinationDir && devDestinationDir && !ghRefs){
+            throw new Error("GitHub ref needs to be specified if prod and dev directories are")
+        }
+        if(contains(ghRefs, "refs/tags/v")){
+            destDir = prodDestinationDir;
+        } else {
+            if(contains(ghRefs, "refs/heads/ma")){
+                destDir = devDestinationDir;
+            } else {
+                if(destinationDir && !prodDestinationDir || !devDestinationDir){
+                    destDir = destinationDir;
+                }
+            }
+        }
+
     if (config.keepFileFresh) {
-        const remotePrefix = config.destinationDir !== "" ? config.destinationDir : config.sourceDir;
+        const remotePrefix = destDir !== "" ? destDir : config.sourceDir;
         await deleteRemoteFiles(config.bucket, remotePrefix);
     }
 
@@ -92,12 +111,12 @@ const run = async (config: R2Config) => {
 
     for (const file in files) {
         console.log(config.sourceDir);
-        console.log(config.destinationDir);
+        console.log(destDir);
         //const fileName = file.replace(config.sourceDir, "");
         const fileName = files[file];
         // const fileKey = path.join(config.destinationDir !== "" ? config.destinationDir : config.sourceDir, fileName);
 
-        const destinationDir = config.destinationDir.split(path.sep).join('/');
+        const destinationDir = destDir.split(path.sep).join('/');
         const fileKey = path.posix.join(destinationDir !== "" ? destinationDir : config.sourceDir.split(path.sep).join('/'), fileName.split(path.sep).join('/'));
 
         if (fileName.includes('.gitkeep'))
