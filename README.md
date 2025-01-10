@@ -12,7 +12,7 @@ Combination of these two repos: [S3 Upload Action](https://github.com/hkusu/s3-u
 <!-- BASIC USAGE -->
 ### Basic Usage
 ```yaml
-- uses: ryand56/r2-upload-action@latest
+- uses: nordic-game-lab/r2-upload-action@latest
   with:
     r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
     r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -29,7 +29,7 @@ Change `destination-dir` input to specify the location of where the directory wi
 <!-- CUSTOM USAGE -->
 ### Custom Usage
 ```yaml
-- uses: ryand56/r2-upload-action@latest # Can be any release
+- uses: nordic-game-lab/r2-upload-action@latest # Can be any release
   with:
     r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
     r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -57,6 +57,9 @@ See the latest [action.yml](https://github.com/ryand56/r2-upload-action/blob/mas
 | `r2-bucket` | **(Required)** Your Cloudflare R2 bucket name. | *N/A* |
 | `source-dir` | **(Required)** The directory to upload to the Cloudflare R2 bucket. | *N/A* |
 | `destination-dir` | (Optional) The destination to upload the directory to in the Cloudflare R2 bucket. | Empty string |
+| `dev-destination-dir` | (Optional) The destination to upload the directory to in the Cloudflare R2 bucket for a development release. | Empty string |
+| `prod-destination-dir` | (Optional) The destination to upload the directory to in the Cloudflare R2 bucket for a production release. | Empty string |
+| `ref` | (Optional) The ref of where the action is being run, only include if `dev-destination-dir` and `prod-destination-dir` are present. | Empty string |
 | `output-file-url` | (Optional) Output the results of the action uploaded files to the `file-urls` output | true |
 | `multipart-size` | (Optional) The minimum file size to use multipart file upload | 100 (in MB) |
 | `max-retries` | (Optional) The maximum number of retries before failing | 5 |
