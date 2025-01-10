@@ -90,10 +90,10 @@ const run = async (config: R2Config) => {
         if(config.prodDestinationDir && config.devDestinationDir && !config.ghRefs){
             throw new Error("GitHub ref needs to be specified if prod and dev directories are")
         }
-        if(contains(config.ghRefs, "refs/tags/v")){
+        if(config.ghRefs.includes("refs/tags/v")){
             destDir = config.prodDestinationDir;
         } else {
-            if(contains(config.ghRefs, "refs/heads/ma")){
+            if(config.ghRefs.includes("refs/heads/ma")){
                 destDir = config.devDestinationDir;
             } else {
                 if(config.destinationDir && !config.prodDestinationDir || !config.devDestinationDir){
