@@ -87,17 +87,17 @@ const run = async (config: R2Config) => {
     const urls: FileMap = {};
 
     let destDir;
-        if(prodDestinationDir && devDestinationDir && !ghRefs){
+        if(config.prodDestinationDir && config.devDestinationDir && !config.ghRefs){
             throw new Error("GitHub ref needs to be specified if prod and dev directories are")
         }
-        if(contains(ghRefs, "refs/tags/v")){
-            destDir = prodDestinationDir;
+        if(contains(config.ghRefs, "refs/tags/v")){
+            destDir = config.prodDestinationDir;
         } else {
-            if(contains(ghRefs, "refs/heads/ma")){
-                destDir = devDestinationDir;
+            if(contains(config.ghRefs, "refs/heads/ma")){
+                destDir = config.devDestinationDir;
             } else {
-                if(destinationDir && !prodDestinationDir || !devDestinationDir){
-                    destDir = destinationDir;
+                if(config.destinationDir && !config.prodDestinationDir || !config.devDestinationDir){
+                    destDir = config.destinationDir;
                 }
             }
         }
