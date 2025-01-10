@@ -13,6 +13,9 @@ export interface R2Config {
     multiPartConcurrent: boolean
     keepFileFresh: boolean
     customCharset: string
+    ghRefs: string
+    devDestinationDir: string
+    prodDestinationDir: string
 }
 
 export interface FileMap {
